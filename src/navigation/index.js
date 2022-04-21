@@ -8,13 +8,20 @@ import RestaurantDetailsScreen from "../screens/RestaurantDetailsScreen";
 import { Foundation, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 import ProfileScreen from '../screens/ProfileScreen'
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { useAuthContext } from "../context/AuthContext";
 
 const Stack = createNativeStackNavigator();
 
 const RootNavigator = () => {
+  const { dbUser } = useAuthContext();
+
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
+      {dbUser ? (
       <Stack.Screen name="HomeTabs" component={HomeTabs} />
+      ) : (
+        <Stack.Screen name="Profile" component={ProfileScreen} />
+      )}
     </Stack.Navigator>
   );
 };

@@ -1,12 +1,12 @@
-import { View, Text, Image, FlatList } from 'react-native'
-import React from 'react'
-import orders from '../../../assets/data/orders.json'
-import restaurants from '../../../assets/data/restaurants.json'
+import { View, Text, Image, FlatList, ActivityIndicator } from 'react-native'
+import {React, useEffect, useState} from 'react'
 import styles from './styles';
 import BasketDishItem from '../../components/BasketDishItem';
-const order = orders[0];
+import { useOrderContext } from '../../context/OrderContext';
+import { useRoute } from '@react-navigation/native';
 
-const OrderDetailsHeader = () => {
+const OrderDetailsHeader = ({order}) => {
+  
   return (
     <View>
       <View style={styles.page}>
@@ -24,11 +24,24 @@ const OrderDetailsHeader = () => {
 };
 
 const OrderDetails = () => {
+  const [order,setOrder] = useState();
+  const {getOrder} = useOrderContext();
+  const route = useRoute();
+  const id = route.params?.id;
+
+  useEffect(() => {
+    getOrder(id).then(setOrder);
+  },[])
+
+  if (!order) {
+    return <ActivityIndicator size={'large'}/>
+  }
+
     return (
         <FlatList
-        ListHeaderComponent={OrderDetailsHeader}
-        data={restaurants[0].dishes}
-        renderItem={({ item }) => <BasketDishItem dish={item} />}
+        ListHeaderComponent={() => <OrderDetailsHeader order={order} />}
+        data={order.dishes}
+        renderItem={({ item }) => <BasketDishItem basketDish={item} />}
       />
     )
 }

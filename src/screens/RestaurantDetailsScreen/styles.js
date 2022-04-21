@@ -29,7 +29,20 @@ const styles = StyleSheet.create({
       marginVertical: 10,
       fontSize: 16,
       letterSpacing: .6,
-  }
+    },
+    button: {
+      backgroundColor: '#000',
+      marginTop: 'auto',
+      padding: 20,
+      alignItems: 'center',
+      borderRadius: 5,
+      margin: 10,
+    },
+    buttonText: {
+      color: '#fff',
+      fontWeight: '600',
+      fontSize: 20
+    }
   });
 
   export default styles;
